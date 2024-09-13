@@ -128,7 +128,7 @@ class InvoiceModal extends React.Component {
                         <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.weight}</td>
                         <td></td> {/* Empty column */}
                         <td className="text-end" style={{ width: '50px', fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>
-                          {this.props.valueWithoutGst}
+                          {item.price}
                         </td>
                       </tr>
                     );
