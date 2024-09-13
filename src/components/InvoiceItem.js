@@ -49,9 +49,9 @@ class ItemRow extends React.Component {
             onItemizedItemEdit={this.props.onItemizedItemEdit}
             cellData={{
             type: "text",
-            name: "awb",
+            name: "awbb",
             placeholder: "Enter AWB No.",
-            value: this.props.item.awb,
+            value: this.props.item.awbb,
             id: this.props.item.id,
           }}/>
           <EditableField
