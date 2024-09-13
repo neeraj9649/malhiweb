@@ -128,7 +128,7 @@ class InvoiceModal extends React.Component {
                         <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.weight}</td>
                         <td></td> {/* Empty column */}
                         <td className="text-end" style={{ width: '50px', fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>
-                          {this.props.valueWithoutGst}
+                          {item.price}
                         </td>
                       </tr>
                     );
@@ -160,7 +160,7 @@ class InvoiceModal extends React.Component {
                       <tr className="text-end">
                         <td></td>
                         <td className="fw-bold" style={{ width: '100px' }}>Taxable Amount</td>
-                        <td className="text-end" style={{ width: '100px' }}>{this.props.currency} {this.props.valueWithoutGst}</td>
+                        <td className="text-end" style={{ width: '100px' }}>{this.props.currency} {this.props.valueWithoutGs}</td>
                       </tr>}
                       {this.props.NonTaxable !== 0.00 &&
                         <tr className="text-end">

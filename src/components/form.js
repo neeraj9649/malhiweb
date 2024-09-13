@@ -289,7 +289,7 @@ const valueWithoutGst = totalGSTNumber > 0 ? (givenAmount / (1 + (totalGSTNumber
         <Col md={4} lg={3}>
           <div className="sticky-top pt-md-3 pt-xl-4">
             <Button variant="primary" type="submit" className="d-block w-100">Review Invoice</Button>
-            <InvoiceModal showModal={this.state.isOpen} closeModal={this.closeModal} info={this.state} valueWithoutGst={this.state.valueWithoutGst} items={this.state.items} currency={this.state.currency} subTotal={this.state.subTotal} discount={this.state.discount} NonTaxableAmount={this.state.NonTaxableAmount} CGSTAmount={this.state.CGSTAmount} SGSTAmount={this.state.SGSTAmount} IGSTAmount={this.state.IGSTAmount} total={this.state.total}/>
+            <InvoiceModal showModal={this.state.isOpen} closeModal={this.closeModal} info={this.state} items={this.state.items} currency={this.state.currency} subTotal={this.state.subTotal} discount={this.state.discount} NonTaxableAmount={this.state.NonTaxableAmount} CGSTAmount={this.state.CGSTAmount} SGSTAmount={this.state.SGSTAmount} IGSTAmount={this.state.IGSTAmount} total={this.state.total}/>
             <Form.Group className="mb-3">
               <Form.Label className="fw-bold">Currency:</Form.Label>
               <Form.Select onChange={event => this.onCurrencyChange({currency: event.target.value})} className="btn btn-light my-1" aria-label="Change Currency">
