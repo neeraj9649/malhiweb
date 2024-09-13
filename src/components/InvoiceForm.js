@@ -46,7 +46,7 @@ class InvoiceForm extends React.Component {
       {
         id: 0,
         name: '',
-        awb:'',
+        awbb:'',
         consignee:'',
         destination:'',
         product:'',
@@ -72,7 +72,7 @@ class InvoiceForm extends React.Component {
     var newItem = {
       id: id,
       name: '',
-      awb:'',
+      awbb:'',
       consignee:'',
       destination:'',
       product:'',

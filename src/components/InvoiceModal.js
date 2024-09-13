@@ -41,7 +41,7 @@ class InvoiceModal extends React.Component {
     src={logoimage} 
     alt={this.props.info.billFrom || 'Company Logo'}   
     className="company-logo"
-    style={{ width: '300px', height: 'auto' }} // Adjust width and height as needed
+    style={{ width: '380px', height: '200px' }} // Adjust width and height as needed
   />
         </div>
 
@@ -51,12 +51,14 @@ class InvoiceModal extends React.Component {
 
   {/* Company Address */}
   <div className="me-5">
-    <p>
+    <p style={{ fontWeight: 'bold', color: '#000000' }}>
+      <strong>
       JALANDHAR CANTT HEAD POST OFFICE, JASVIR SINGH S/O AJIT SINGH, OLD PHAGWARA ROAD, DEEP NAGAR, JALANDHAR
       <br />
       JALANDHAR PUNJAB-144005<br/>
-    GST No.:03DDOPM9654Q1ZJ,PAN No.:DDOPM9654Q<br/>
-    Contact No:- +91 7719674619</p>
+    GST No.:03DDOPM9654Q1ZJ<br/>PAN No.:DDOPM9654Q<br/>
+    Contact No:- +91 7719674619
+    </strong></p>
   </div>
 </div>
 
@@ -67,9 +69,11 @@ class InvoiceModal extends React.Component {
                 <div className="fw-bold">Billed to:</div>
                 <div>
                   <p>
+                    <strong>
                     <strong>Bill To:</strong> {this.props.info.billTo || ''}<br/>
                     <strong>Address:</strong> {this.props.info.billToAddress || ''}<br/>
                     <strong>GST No:</strong> {this.props.info.billGstno || ''}
+                    </strong>
                   </p>
                 </div>
               </Col>
@@ -78,9 +82,11 @@ class InvoiceModal extends React.Component {
               <div className="fw-bold">Billing Details:</div>
                 <div>
                   <p>
+                    <strong>
                     <strong>Invoice NO:</strong> {this.props.info.billinvoiceno || ''}<br/>
                     <strong>Date:</strong> {this.props.info.dateOfIssue || ''}<br/>
                     <strong>Mode of Payment:</strong> {this.props.info.billmodepayment || ''}
+                    </strong>
                   </p>
                 </div>
               </Col>
@@ -89,47 +95,45 @@ class InvoiceModal extends React.Component {
 <Table className="table table-responsive" style={{ tableLayout: 'fixed', width: '100%' }}>
   <thead className="small">
     <tr>
-      <th style={{ width: '40px', fontSize:'9px', wordWrap: 'break-word' }}>Sr.No</th>
-      <th style={{ width: '70px', fontSize: '9px', wordWrap: 'break-word' }}>Date</th>
-      <th style={{ width: '70px', fontSize: '9px', wordWrap: 'break-word' }}>Awb No</th>
-      <th style={{ width: '70px', fontSize: '9px', wordWrap: 'break-word' }}>Consignee</th>
-      <th style={{ width: '70px', fontSize: '9px', wordWrap: 'break-word' }}>Destination</th>
-      <th style={{ width: '70px', fontSize: '9px', wordWrap: 'break-word' }}>Product</th>
-      <th style={{ width: '80px', fontSize: '9px', wordWrap: 'break-word' }}>Network No</th>
-      <th style={{ width: '50px', fontSize: '9px', wordWrap: 'break-word' }}>D/S</th>
-      <th style={{ width: '50px', fontSize: '9px', wordWrap: 'break-word' }}>Pcs</th>
-      <th style={{ width: '60px', fontSize: '9px', wordWrap: 'break-word' }}>Weight</th>
+      <th style={{ width: '40px', fontSize: '11px', fontWeight: 'bold', color: '#000' }}>Sr.No</th>
+      <th style={{ width: '90px', fontSize: '11px', fontWeight: 'bold', color: '#000' }}>Date</th>
+      <th style={{ width: '70px', fontSize: '11px', fontWeight: 'bold', color: '#000' }}>Awb No</th>
+      <th style={{ width: '90px', fontSize: '11px', fontWeight: 'bold', color: '#000' }}>Consignee</th>
+      <th style={{ width: '70px', fontSize: '11px', fontWeight: 'bold', color: '#000' }}>Destination</th>
+      <th style={{ width: '70px', fontSize: '11px', fontWeight: 'bold', color: '#000' }}>Product</th>
+      <th style={{ width: '90px', fontSize: '11px', fontWeight: 'bold', color: '#000' }}>Network No</th>
+      <th style={{ width: '50px', fontSize: '11px', fontWeight: 'bold', color: '#000' }}>D/S</th>
+      <th style={{ width: '50px', fontSize: '11px', fontWeight: 'bold', color: '#000' }}>Pcs</th>
+      <th style={{ width: '60px', fontSize: '11px', fontWeight: 'bold', color: '#000' }}>Weight</th>
       <th></th>
-      <th style={{ width: '50px', fontSize:'10px', wordWrap: 'break-word' }} className="text-end">Price</th>
-      {/* <th style={{ width: '50px', fontSize:'10px', wordWrap: 'break-word' }} className="text-end">Amount</th> */}
+      <th style={{ width: '50px', fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }} className="text-end">Price</th>
     </tr>
   </thead>
   <tbody>
     {this.props.items.map((item, i) => {
       return (
         <tr id={i} key={i}>
-          <td style={{ fontSize: '9px', wordWrap: 'break-word' }}>{i + 1}</td>
-          <td style={{ fontSize: '9px', wordWrap: 'break-word' }}>{this.props.info.dateOfIssue}</td>
-          <td style={{ fontSize: '9px', wordWrap: 'break-word' }}>{item.awb}</td>
-          <td style={{ fontSize: '9px', wordWrap: 'break-word' }}>{item.consignee}</td>
-          <td style={{ fontSize: '9px', wordWrap: 'break-word' }}>{item.destination}</td>
-          <td style={{ fontSize: '9px', wordWrap: 'break-word' }}>{item.product}</td>
-          <td style={{ fontSize: '9px', wordWrap: 'break-word' }}>{item.networkno}</td>
-          <td style={{ fontSize: '9px', wordWrap: 'break-word' }}>{item.dsa}</td>
-          <td style={{ fontSize: '9px', wordWrap: 'break-word' }}>{item.pcs}</td>
-          <td style={{ fontSize: '9px', wordWrap: 'break-word' }}>{item.weight}</td>
+          <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{i + 1}</td>
+          <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{this.props.info.dateOfIssue}</td>
+          <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.awbb}</td>
+          <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.consignee}</td>
+          <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.destination}</td>
+          <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.product}</td>
+          <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.networkno}</td>
+          <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.dsa}</td>
+          <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.pcs}</td>
+          <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.weight}</td>
           <td></td> {/* Empty column */}
-          <td className="text-end" style={{ width: '50px', fontSize:'10px', }}>
+          <td className="text-end" style={{ width: '50px', fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>
             {item.price}
           </td>
-          {/* <td className="text-end" style={{ width: '50spx', fontSize:'10px',  }}>
-          {item.price * item.quantity}
-          </td> */}
         </tr>
       );
     })}
   </tbody>
 </Table>
+
+
 
 <div style={{
                     display: 'flex',
@@ -137,11 +141,11 @@ class InvoiceModal extends React.Component {
                     gap: '20px' // Adds space between items
                   }}>
                     <div style={{ flex: 1 }}>
-                      <p><br/><br/><br/><h4>Bank detail </h4>
+                      <p><strong><br/><br/><br/><br/><br/><br/><h4>Bank detail </h4>
                       <b>Bank name :-</b> Kotak Mahindra <br/>
                       <b>Name :-</b> Malhi Enterprises <br/>
                       <b>Ac no :-</b> 5148114343<br/>
-                      <b>IFSC code :-</b>KKBK0004020</p>
+                      <b>IFSC code :-</b>KKBK0004020</strong></p>
                     </div>
                     <div style={{ flex: 1 }}>
                       <Table style={{ borderCollapse: 'collapse', textAlign: 'left' }}>
@@ -201,14 +205,16 @@ class InvoiceModal extends React.Component {
                     </div>
                   </div>
               <td >
+                <strong>
                 <h4>TERMS & CONDITION:</h4>
 1.Payment of this invoice should be by crossed account payee cheque / demand draft in favour of Malhi Enterprises.<br/>
 2.Kindly notify us in writing regarding any discrepancy in this invoice within seven days. Otherwise, this invoice shall be deemed to be correct and payable by you.<br/>
 3.Interest @2% per month will be charged on delayed payments.<br/>
 4.Any discrepency in this invoice must communicate in written within 7 days of date of invoice <br/>
 5.This is a computer generated invoice with Digital Signature. does not require signature<br/>
-<br/><br/><br/><br/><br/><br/>
+<br/><br/><br/>
 Authorized Signatory
+</strong>
               </td>
             </div>
           </div>
