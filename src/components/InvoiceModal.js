@@ -15,6 +15,7 @@ class InvoiceModal extends React.Component {
 
   GenerateInvoice = () => {
     const pdfName = this.props.info.billTo ? `${this.props.info.billTo}.pdf` : 'default-invoice-name.pdf';
+    const invcn =this.props.info.billinvoiceno ? `${this.props.info.billinvoiceno}.pdf` : 'default-invoice-name.pdf';
     
     html2canvas(document.querySelector("#invoiceCapture")).then((canvas) => {
       const imgData = canvas.toDataURL('image/png', 1.0);
@@ -28,7 +29,7 @@ class InvoiceModal extends React.Component {
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save(pdfName);
+      pdf.save(invcn);
     });
   };
 
