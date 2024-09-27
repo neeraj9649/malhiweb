@@ -116,8 +116,12 @@ const handleExport = () => {
 
     // Create multiple rows if array lengths are greater than 1
     const rows = Array.from({ length: maxLength }).map((_, index) => ({
-      invoiceNo: item.invoiceNo || '',
+      Invoice_No: item.Invoice_No || '',
       date: item.date || '',
+      Customer_Name: item.Customer_Name || '',    // From this.props.info.billTo
+      Mode_Of_Payment: item.Mode_Of_Payment || '',// From this.props.info.billmodepayment
+      Gst_No: item.Gst_No || '',                  // From this.props.info.billGstno
+      Billing_Address: item.Billing_Address || '', // From this.props.info.billToAddress
       consignee: item.consignee?.[index] || '',
       destination: item.destination?.[index] || '',
       product: item.product?.[index] || '',
@@ -206,8 +210,12 @@ const handleExport = () => {
       <table className="table mt-3">
         <thead>
           <tr>
-            <th>Invoice No</th>
             <th>Date</th>
+            <th>Invoice No</th>
+            <th>Customer Name</th>
+            <th>Mode of Payment</th>
+            <th>Gst No</th>
+            <th>Billing Address</th>
             <th>Consignee</th>
             <th>Destination</th>
             <th>Product</th>
@@ -226,8 +234,12 @@ const handleExport = () => {
         <tbody>
           {filteredData.map((item) => (
             <tr key={item.id}>
-              <td>{item.invoiceNo || ''}</td>
               <td>{item.date || ''}</td>
+              <td>{item.Invoice_No || ''}</td>
+              <td>{item.Customer_Name || ''}</td>
+              <td>{item.Mode_Of_Payment || ''}</td>
+              <td>{item.Gst_No || ''}</td>
+              <td>{item.Billing_Address || ''}</td>
               <td>{item.consignee || ''}</td>
               <td>{item.destination || ''}</td>
               <td>{item.product || ''}</td>

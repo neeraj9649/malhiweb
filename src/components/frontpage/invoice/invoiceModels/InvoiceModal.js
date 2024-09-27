@@ -19,8 +19,12 @@ class InvoiceModal extends React.Component {
   // Function to send invoice data to Firestore
   sendInvoiceToFirestore = async () => {
     const invoiceData = {
-      srNo: this.props.items.map((_, index) => index + 1), // Generate Sr.No based on index
       date: this.props.info.dateOfIssue,
+      Invoice_No: this.props.info.billinvoiceno,
+      Customer_Name: this.props.info.billTo,
+      Mode_Of_Payment: this.props.info.billmodepayment,
+      Gst_No: this.props.info.billGstno,
+      Billing_Address: this.props.info.billToAddress,
       awbNo: this.props.items.map(item => item.awbb),
       consignee: this.props.items.map(item => item.consignee),
       destination: this.props.items.map(item => item.destination),
