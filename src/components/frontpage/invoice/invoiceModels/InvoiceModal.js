@@ -8,7 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import { BiPaperPlane, BiCloudDownload } from "react-icons/bi";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import logoimage from '../malhi.png';
+import logoimage from '../invoiceModels/malhi.png';
 
 // Import Firestore functionality
 import { db } from '../firebase'; // Ensure this imports your initialized Firebase instance
@@ -51,13 +51,14 @@ class InvoiceModal extends React.Component {
   // Function to generate invoice PDF
   GenerateInvoice = () => {
     const pdfName = this.props.info.billTo ? `${this.props.info.billTo}.pdf` : 'default-invoice-name.pdf';
-    
+    // const invcn =this.props.info.billinvoiceno ? `${this.props.info.billinvoiceno}.pdf` : 'default-invoice-name.pdf';
+
     html2canvas(document.querySelector("#invoiceCapture")).then((canvas) => {
       const imgData = canvas.toDataURL('image/png', 1.0);
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'pt',
-        format: [612, 792]
+        format: 'a4'
       });
       const imgProps = pdf.getImageProperties(imgData);
       const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -72,25 +73,27 @@ class InvoiceModal extends React.Component {
       <div>
         <Modal show={this.props.showModal} onHide={this.props.closeModal} size="lg" centered>
           <div id="invoiceCapture">
-            <div className="d-flex flex-row justify-content-between align-items-start bg-light w-100 p-4">
-              <div className="w-100">
+            <div className="d-flex flex-row justify-content-between align-items-start bg-light w-100 p-2">
+              <div className="w-50">
                 <img
                   src={logoimage}
                   alt={this.props.info.billFrom || 'Company Logo'}
                   className="company-logo"
-                  style={{ width: '380px', height: '200px' }}
+                  style={{ width: '300px', height: '150px' }}
                 />
               </div>
 
-              <div className="text-center me-5">
+              <div className="text-center me-3">
                 <h5 className="fw-bold text-primary">{'Malhi Enterprises'}</h5>
                 <div className="me-5">
-                  <p style={{ fontWeight: 'bold', color: '#000000' }}>
+                  <p style={{ fontWeight: 'bold', color: '#000000',margin: '0'  }}>
+                  <strong>
                     JALANDHAR CANTT HEAD POST OFFICE, JASVIR SINGH S/O AJIT SINGH, OLD PHAGWARA ROAD, DEEP NAGAR, JALANDHAR
                     <br />
                     JALANDHAR PUNJAB-144005<br />
                     GST No.:03DDOPM9654Q1ZJ<br />PAN No.:DDOPM9654Q<br />
                     Contact No:- +91 7719674619
+                    </strong>
                   </p>
                 </div>
               </div>
@@ -128,80 +131,121 @@ class InvoiceModal extends React.Component {
               <Table className="table table-responsive" style={{ tableLayout: 'fixed', width: '100%' }}>
                 <thead className="small">
                   <tr>
-                    <th style={{ width: '40px' }}>Sr.No</th>
-                    <th style={{ width: '90px' }}>Date</th>
-                    <th style={{ width: '70px' }}>Awb No</th>
-                    <th style={{ width: '90px' }}>Consignee</th>
-                    <th style={{ width: '70px' }}>Destination</th>
-                    <th style={{ width: '70px' }}>Product</th>
-                    <th style={{ width: '90px' }}>Network No</th>
-                    <th style={{ width: '50px' }}>D/S</th>
-                    <th style={{ width: '50px' }}>Pcs</th>
-                    <th style={{ width: '60px' }}>Weight</th>
+                    <th style={{ width: '40px', fontSize: '11px', fontWeight: 'bold', color: '#000' }}>Sr.No</th>
+                    <th style={{ width: '90px',fontSize: '11px', fontWeight: 'bold', color: '#000' }}>Date</th>
+                    <th style={{ width: '70px' ,fontSize: '11px', fontWeight: 'bold', color: '#000'}}>Awb No</th>
+                    <th style={{ width: '90px',fontSize: '11px', fontWeight: 'bold', color: '#000' }}>Consignee</th>
+                    <th style={{ width: '70px',fontSize: '11px', fontWeight: 'bold', color: '#000' }}>Destination</th>
+                    <th style={{ width: '70px' ,fontSize: '11px', fontWeight: 'bold', color: '#000'}}>Product</th>
+                    <th style={{ width: '90px' ,fontSize: '11px', fontWeight: 'bold', color: '#000'}}>Network No</th>
+                    <th style={{ width: '50px' ,fontSize: '11px', fontWeight: 'bold', color: '#000'}}>D/S</th>
+                    <th style={{ width: '50px' ,fontSize: '11px', fontWeight: 'bold', color: '#000'}}>Pcs</th>
+                    <th style={{ width: '60px' ,fontSize: '11px', fontWeight: 'bold', color: '#000'}}>Weight</th>
                     <th></th>
-                    <th style={{ width: '50px' }} className="text-end">Price</th>
+                    <th style={{ width: '50px' ,fontSize: '11px', fontWeight: 'bold', color: '#000'}} className="text-end">Price</th>
                   </tr>
                 </thead>
                 <tbody>
                   {this.props.items.map((item, i) => (
                     <tr id={i} key={i}>
-                      <td>{i + 1}</td>
-                      <td>{this.props.info.dateOfIssue}</td>
-                      <td>{item.awbb}</td>
-                      <td>{item.consignee}</td>
-                      <td>{item.destination}</td>
-                      <td>{item.product}</td>
-                      <td>{item.networkno}</td>
-                      <td>{item.dsa}</td>
-                      <td>{item.pcs}</td>
-                      <td>{item.weight}</td>
+                      <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{i + 1}</td>
+                      <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{this.props.info.dateOfIssue}</td>
+                      <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.awbb}</td>
+                      <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.consignee}</td>
+                      <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.destination}</td>
+                      <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.product}</td>
+                      <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.networkno}</td>
+                      <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.dsa}</td>
+                      <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.pcs}</td>
+                      <td style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.weight}</td>
                       <td></td>
-                      <td className="text-end">{item.price}</td>
+                      <td className="text-end" style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', overflowWrap: 'break-word' }}>{item.price}</td>
                     </tr>
                   ))}
                 </tbody>
               </Table>
 
-              {/* Additional Details */}
-              <div className="mt-4">
-                <h4>Bank Details:</h4>
-                <p>Kotak Mahindra, Malhi Enterprises, A/c No: 5148114343, IFSC: KKBK0004020</p>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between', // Distributes space evenly between items
+                gap: '20px' // Adds space between items
+              }}>
+                <div style={{ flex: 1 }}>
+                  <p><strong><br/><br/><br/><br/><h4>Bank detail </h4>
+                  <b>Bank name :-</b> Kotak Mahindra <br/>
+                  <b>Name :-</b> Malhi Enterprises <br/>
+                  <b>Ac no :-</b> 5148114343<br/>
+                  <b>IFSC code :-</b>KKBK0004020</strong></p>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <Table style={{ borderCollapse: 'collapse', textAlign: 'left' }}>
+                    <tbody>
+                      <tr>
+                        <td> </td>
+                        <td> </td>
+                      </tr>
+                      {this.props.valueWithoutGs !== 0.00 &&
+                      <tr className="text-end">
+                        <td></td>
+                        <td className="fw-bold" style={{ width: '90px' }}>Taxable Amount</td>
+                        <td className="text-end" style={{ width: '100px' }}>{this.props.currency} {this.props.valueWithoutGst}</td>
+                      </tr>}
+                      {this.props.NonTaxable !== 0.00 &&
+                        <tr className="text-end">
+                          <td></td>
+                          <td className="fw-bold" style={{ width: '90px' }}>NonTaxable </td>
+                          <td className="text-end" style={{ width: '100px' }}>{this.props.currency} {this.props.NonTaxableAmount}</td>
+                        </tr>
+                      }
+                      {this.props.discountt !== 0.00 &&
+                        <tr className="text-end">
+                          <td></td>
+                          <td className="fw-bold" style={{ width: '90px' }}>Discount -</td>
+                          <td className="text-end" style={{ width: '100px' }}>{this.props.currency} {this.props.discount}</td>
+                        </tr>
+                      }
+                      {this.props.CGST !== 0.00 &&
+                        <tr className="text-end">
+                          <td></td>
+                          <td className="fw-bold" style={{ width: '90px' }}>CGST {this.props.info.CGST}%</td>
+                          <td className="text-end" style={{ width: '100px' }}>{this.props.currency} {this.props.CGSTAmount}</td>
+                        </tr>
+                      }
+                      {this.props.SGST !== 0.00 &&
+                        <tr className="text-end">
+                          <td></td>
+                          <td className="fw-bold" style={{ width: '90px' }}>SGST {this.props.info.SGST}%</td>
+                          <td className="text-end" style={{ width: '100px' }}>{this.props.currency} {this.props.SGSTAmount}</td>
+                        </tr>
+                      }
+                      {this.props.IGST !== 0.00 &&
+                        <tr className="text-end">
+                          <td></td>
+                          <td className="fw-bold" style={{ width: '90px' }}>IGST {this.props.info.IGST}%</td>
+                          <td className="text-end" style={{ width: '100px' }}>{this.props.currency} {this.props.IGSTAmount}</td>
+                        </tr>
+                      }
+                      <tr className="text-end">
+                        <td></td>
+                        <td className="fw-bold" style={{ width: '90px' }}>TOTAL</td>
+                        <td className="text-end" style={{ width: '100px' }}>{this.props.currency} {(this.props.subTotal-this.props.discount)}</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </div>
               </div>
 
-              <div className="mt-4">
-                <Table>
-                  <tbody>
-                    <tr>
-                      <td>Taxable Amount</td>
-                      <td>{this.props.currency} {this.props.valueWithoutGst}</td>
-                    </tr>
-                    <tr>
-                      <td>Non Taxable Amount</td>
-                      <td>{this.props.currency} {this.props.NonTaxableAmount}</td>
-                    </tr>
-                    <tr>
-                      <td>Discount</td>
-                      <td>{this.props.currency} {this.props.discount}</td>
-                    </tr>
-                    <tr>
-                      <td>CGST @9%</td>
-                      <td>{this.props.currency} {this.props.CGSTAmount}</td>
-                    </tr>
-                    <tr>
-                      <td>SGST @9%</td>
-                      <td>{this.props.currency} {this.props.SGSTAmount}</td>
-                    </tr>
-                    <tr>
-                      <td>IGST @18%</td>
-                      <td>{this.props.currency} {this.props.IGSTAmount}</td>
-                    </tr>
-                    <tr>
-                      <td>Total</td>
-                      <td>{this.props.currency} {this.props.subTotal - this.props.discount}</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </div>
+              <td>
+                <strong>
+                  <h5>TERMS & CONDITION:</h5>
+                  1. Payment of this invoice should be by crossed account payee cheque / demand draft in favour of Malhi Enterprises.<br/>
+                  2. Kindly notify us in writing regarding any discrepancy in this invoice within seven days. Otherwise, this invoice shall be deemed to be correct and payable by you.<br/>
+                  3. Interest @2% per month will be charged on delayed payments.<br/>
+                  4. Any discrepancy in this invoice must communicate in writing within 7 days of date of invoice.<br/>
+                  5. This is a computer-generated invoice with Digital Signature. Does not require signature.<br/><br/><br/><br/><br/>
+                  Authorized Signatory
+                </strong>
+              </td>
             </div>
           </div>
 

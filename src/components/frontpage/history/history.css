@@ -1,0 +1,182 @@
+/* General Layout */
+.historyhead {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-section,
+.import-export-section,
+.search-bar {
+    flex-basis: 30%;
+    text-align: center;
+    margin: 0 10px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-section h1,
+.import-export-section h1,
+.search-bar h1 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Input Styling */
+input[type="date"],
+input[type="search"] {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+/* Button Styling */
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Import/Export Section Layout */
+.import-export-section {
+    flex-basis: 30%;
+    text-align: center;
+    margin: 0 10px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.import-export-section h1 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: bold;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    /* Stack the buttons and text vertically */
+    align-items: flex-start;
+    /* Align text and buttons to the left */
+}
+
+.import-btn-container,
+.export-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* Align text and button to the left */
+    width: 100%;
+    margin-bottom: 10px;
+    /* Space between the two button groups */
+}
+
+.button-text {
+    font-size: 0.9rem;
+    color: black;
+    margin-right: 10px;
+    /* Space between text and button */
+    flex-basis: 70%;
+    /* Make the text take 70% of the width */
+    text-align: left;
+    /* Align text to the left */
+}
+
+button {
+    flex-basis: 30%;
+    /* Ensure the button doesn't take up the whole row */
+}
+
+/* Animations */
+.historyhead div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Icons */
+.search-bar i {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .historyhead {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-section,
+    .import-export-section,
+    .search-bar {
+        margin-bottom: 20px;
+        flex-basis: 100%;
+    }
+}
+
+/* total sales */
+.total-sum-section {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #f8f9fa;
+    /* Light gray background */
+    border: 2px solid #007bff;
+    /* Blue border */
+    border-radius: 5px;
+    padding: 10px;
+    /* Space inside the box */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    margin-top: 20px;
+}
+
+.total-sum-section label {
+    margin-right: 10px;
+    font-weight: bold;
+    /* Bold text for the label */
+    color: #343a40;
+    /* Darker color for the label */
+}
+
+.total-sum-section input {
+    width: 200px;
+    /* Fixed width for the input */
+    border-radius: 5px;
+    /* Rounded corners for the input */
+    border: 1px solid #007bff;
+    /* Match border color with the section */
+    padding: 5px;
+    /* Space inside the input */
+    background-color: #ffffff;
+    /* White background for the input */
+}
