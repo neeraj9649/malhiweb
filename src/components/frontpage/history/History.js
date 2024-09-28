@@ -1,8 +1,8 @@
-import React, { useState, useEffect,useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as XLSX from 'xlsx';
 import { db } from '../invoice/firebase'; // Make sure this points to your Firebase initialization
-import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, deleteDoc, addDoc } from 'firebase/firestore';
 import './history.css';
 
 function History() {
@@ -11,6 +11,7 @@ function History() {
   const [endDate, setEndDate] = useState(''); // State for end date
   const [filteredData, setFilteredData] = useState([]); // State for filtered
   const [totalSum, setTotalSum] = useState(0);
+  const [searchTerm, setSearchTerm] = useState(''); // State for search input
 
   // Fetching data from Firebase Firestore
   const fetchDataFromFirebase = useCallback(async () => {
@@ -23,8 +24,7 @@ function History() {
 
       // Sort data by date in descending order
       const sortedData = firebaseData.sort((a, b) => new Date(b.date) - new Date(a.date));
-      // Log the fetched data
-    console.log('Fetched Data from Firebase:', firebaseData);
+      console.log('Fetched Data from Firebase:', firebaseData);
       setData(sortedData);
       setFilteredData(sortedData);
       calculateTotalSum(sortedData);
@@ -35,7 +35,7 @@ function History() {
 
   // Update data in Firebase (e.g., after editing data in the table)
   const updateDataInFirebase = async (id, updatedData) => {
-    const docRef = doc(db, 'invoices', id); // Replace 'invoices' with your collection name
+    const docRef = doc(db, 'invoices', id);
     await updateDoc(docRef, updatedData);
     console.log('Data updated successfully');
     fetchDataFromFirebase(); // Refetch the data after updating
@@ -44,7 +44,8 @@ function History() {
   useEffect(() => {
     fetchDataFromFirebase(); // Fetch data when the component loads
   }, []);
-// Handle filtering data based on the selected date range
+
+  // Handle filtering data based on the selected date range
   const handleFilterByDate = () => {
     if (!startDate || !endDate) {
       alert("Please select both start and end dates.");
@@ -52,7 +53,7 @@ function History() {
     }
 
     const filtered = data.filter((item) => {
-      const itemDate = new Date(item.date); // Assuming 'date' field exists in Firebase documents
+      const itemDate = new Date(item.date);
       const start = new Date(startDate);
       const end = new Date(endDate);
       return itemDate >= start && itemDate <= end;
@@ -62,19 +63,41 @@ function History() {
       alert('No data found for the selected date range');
     }
 
-    setFilteredData(filtered); // Update the filtered data
-    calculateTotalSum(filtered); // Update the sum based on filtered data
+    setFilteredData(filtered);
+    calculateTotalSum(filtered);
   };
-// Function to calculate the sum of the 'total' column
+
+  // Function to calculate the sum of the 'total' column
   const calculateTotalSum = (dataToSum) => {
-    const sum = dataToSum.reduce((acc, item) => acc + (item.total || 0), 0); // Sum up the 'total' column
-    setTotalSum(sum); // Set the sum in state
+    const sum = dataToSum.reduce((acc, item) => acc + (item.total || 0), 0);
+    setTotalSum(sum);
+  };
+
+  // Search functionality
+  const handleSearch = () => {
+    if (!searchTerm) {
+      setFilteredData(data);
+      return;
+    }
+
+    const filtered = data.filter(item => 
+      item.Invoice_No.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.Customer_Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (item.consignee && item.consignee.join(', ').toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+
+    if (filtered.length === 0) {
+      alert('No data found for the search term');
+    }
+
+    setFilteredData(filtered);
   };
 
   const handleImport = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-    reader.onload = (e) => {
+
+    reader.onload = async (e) => {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: 'array' });
       const sheetName = workbook.SheetNames[0];
@@ -83,130 +106,179 @@ function History() {
 
       console.log('Imported Data:', jsonData);
 
-      // Optional: Update Firebase with imported data
-      jsonData.forEach((item) => {
-        const docRef = doc(db, 'invoices', item.id); // Assuming each row in the sheet has an 'id' field
-        updateDataInFirebase(item.id, item);
-      });
+      for (const row of jsonData) {
+        const formattedData = {
+          Invoice_No: row['Invoice_No'] || '',
+          date: row['Date'] || '',
+          Customer_Name: row['Customer_Name'] || '',
+          Mode_Of_Payment: row['Mode_Of_Payment'] || '',
+          Gst_No: row['GST_No'] || '',
+          Billing_Address: row['Billing_Address'] || '',
+          CGST: row['CGST'] || '',
+          SGST: row['SGST'] || '',
+          IGST: row['IGST'] || '',
+          TaxableAmount: row['TaxableAmount'] || '0.00',
+          NonTaxableAmount: row['NonTaxableAmount'] || '0.00',
+          discount: row['Discount'] || '0.00',
+          total: parseFloat(row['total']) || 0,
+          awbNo: row['awbNo'] ? [row['awbNo']] : [],
+          consignee: row['Consignee'] ? [row['Consignee']] : [],
+          destination: row['Destination'] ? [row['Destination']] : [],
+          product: row['Product'] ? [row['Product']] : [],
+          pcs: row['Pcs'] ? [row['Pcs']] : [],
+          weight: row['Weight'] ? [row['Weight']] : [],
+          price: row['Price'] ? [row['Price']] : [],
+          ds: row['ds'] ? [row['ds']] : [],
+          networkNo: row['networkNo'] ? [row['networkNo']] : [],
+        };
+
+        try {
+          await addDoc(collection(db, 'invoices'), formattedData);
+          console.log('Data inserted:', formattedData);
+        } catch (error) {
+          console.error('Error inserting data:', error);
+        }
+      }
+
+      fetchDataFromFirebase(); // Refresh the data after import
     };
+
     reader.readAsArrayBuffer(file);
   };
 
-const handleExport = () => {
-  // Check if filtered data is available
-  if (filteredData.length === 0) {
-    alert('No data found for export');
-    return;
-  }
+  const handleExport = () => {
+    if (filteredData.length === 0) {
+      alert('No data found for export');
+      return;
+    }
 
-  // Process the filtered data to flatten array fields
-  const exportData = filteredData.map(item => {
-    const maxLength = Math.max(
-      item.product?.length || 0,
-      item.price?.length || 0,
-      item.srNo?.length || 0,
-      item.destination?.length || 0,
-      item.ds?.length || 0,
-      item.networkNo?.length || 0,
-      item.consignee?.length || 0,
-      item.pcs?.length || 0,
-      item.awbNo?.length || 0,
-      item.weight?.length || 0 // Included weight array length check
-    );
+    const exportData = filteredData.map(item => {
+      const maxLength = Math.max(
+        item.product?.length || 0,
+        item.price?.length || 0,
+        item.srNo?.length || 0,
+        item.destination?.length || 0,
+        item.ds?.length || 0,
+        item.networkNo?.length || 0,
+        item.consignee?.length || 0,
+        item.pcs?.length || 0,
+        item.awbNo?.length || 0,
+        item.weight?.length || 0
+      );
 
-    // Create multiple rows if array lengths are greater than 1
-    const rows = Array.from({ length: maxLength }).map((_, index) => ({
-      Invoice_No: item.Invoice_No || '',
-      date: item.date || '',
-      Customer_Name: item.Customer_Name || '',    // From this.props.info.billTo
-      Mode_Of_Payment: item.Mode_Of_Payment || '',// From this.props.info.billmodepayment
-      Gst_No: item.Gst_No || '',                  // From this.props.info.billGstno
-      Billing_Address: item.Billing_Address || '', // From this.props.info.billToAddress
-      consignee: item.consignee?.[index] || '',
-      destination: item.destination?.[index] || '',
-      product: item.product?.[index] || '',
-      pcs: item.pcs?.[index] || '',
-      weight: item.weight?.[index] || '', // Add weight array value here
-      price: item.price?.[index] || '',
-      taxableAmount: item.taxableAmount || '',
-      nonTaxableAmount: item.nonTaxableAmount || '',
-      CGST: item.CGST || '',
-      SGST: item.SGST || '',
-      total: item.total || '',
-      srNo: item.srNo?.[index] || '',
-      ds: item.ds?.[index] || '',
-      networkNo: item.networkNo?.[index] || '',
-      awbNo: item.awbNo?.[index] || ''
-    }));
+      const rows = Array.from({ length: maxLength }).map((_, index) => ({
+        srNo: item.srNo?.[index] || '',
+        Invoice_No: item.Invoice_No || '',
+        Date: item.date || '',
+        Customer_Name: item.Customer_Name || '',
+        Mode_Of_Payment: item.Mode_Of_Payment || '',
+        GST_No: item.Gst_No || '',
+        Billing_Address: item.Billing_Address || '',
+        Consignee: item.consignee?.[index] || '',
+        Destination: item.destination?.[index] || '',
+        Product: item.product?.[index] || '',
+        Pcs: item.pcs?.[index] || '',
+        Weight: item.weight?.[index] || '',
+        Price: item.price?.[index] || '',
+        TaxableAmount: item.TaxableAmount || '',
+        NonTaxableAmount: item.NonTaxableAmount || '',
+        CGST: item.CGST || '',
+        SGST: item.SGST || '',
+        IGST: item.IGST || '',
+        total: item.total || '',
+        ds: item.ds?.[index] || '',
+        networkNo: item.networkNo?.[index] || '',
+        awbNo: item.awbNo?.[index] || ''
+      }));
 
-    return rows;
-  });
+      return rows;
+    });
 
-  // Flatten the array of arrays into a single array of rows
-  const flattenedExportData = exportData.flat();
+    const flattenedExportData = exportData.flat();
+    const headers = [
+      'Sr No', 'Invoice No', 'Date', 'Consignee', 'Destination', 'Product', 'Pcs',
+      'Weight', 'Price', 'Taxable Amount', 'Non-Taxable Amount', 'CGST',
+      'SGST', 'Total', 'DS', 'Network No', 'AWB No',
+      'Customer Name', 'Mode of Payment', 'GST No', 'Billing Address'
+    ];
 
-  // Convert the flattened data to a worksheet
-  const worksheet = XLSX.utils.json_to_sheet(flattenedExportData);
-  const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(flattenedExportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Filtered_History');
+    XLSX.writeFile(workbook, 'Filtered_History.xlsx');
+  };
 
-  // Append the worksheet to the workbook
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Filtered_History');
-
-  // Write the workbook to a file
-  XLSX.writeFile(workbook, 'Filtered_History.xlsx');
-};
-
-
+  const deleteDataFromFirebase = async (id) => {
+    try {
+      await deleteDoc(doc(db, 'invoices', id));
+      fetchDataFromFirebase(); // Refetch data after deletion
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
+  };
 
   return (
     <div className="App d-flex flex-column align-items-center justify-content-center w-100">
       <h1>History</h1>
-      {/* history header */}
-          <div className='historyhead'> 
-            <div className="filter-section">
-              <h1>Filter</h1>
-              <label htmlFor="start-date">Start Date:</label>
+      <div className='historyhead'>
+        <div className="filter-section">
+          <h1>Filter</h1>
+          <label htmlFor="start-date">Start Date:</label>
+          <input 
+            type="date" 
+            id="start-date" 
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)} 
+          />
+          <label htmlFor="end-date">End Date:</label>
+          <input 
+            type="date" 
+            id="end-date" 
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)} 
+          />
+          <button className="done-btn" onClick={handleFilterByDate}>Done</button>
+        </div>
+
+        <div className="import-export-section">
+          <h1>Import/Export</h1>
+          <div className="button-group">
+            <div className="import-btn-container">
+              <span className="button-text">Add Excel File</span>
+              <button 
+                className="import-btn" 
+                onClick={() => document.getElementById('hiddenFileInput').click()}>
+                Import
+              </button>
               <input 
-                type="date" 
-                id="start-date" 
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)} 
+                type="file" 
+                id="hiddenFileInput" 
+                accept=".xlsx, .xls" 
+                onChange={handleImport} 
+                style={{ display: 'none' }} 
               />
-              <label htmlFor="end-date">End Date:</label>
-              <input 
-                type="date" 
-                id="end-date" 
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)} 
-              />
-              <button className="done-btn" onClick={handleFilterByDate}>Done</button>
             </div>
 
-            <div className="import-export-section">
-              <h1>Import/Export</h1>
-              <div className="button-group">
-                <div className="import-btn-container">
-                  <span className="button-text">Add Excel File</span>
-                  <button className="import-btn">Import</button>
-                </div>
-                <div className="export-btn-container">
-                  <span className="button-text">Download Excel File</span>
-                  <button className="export-btn" onClick={handleExport}>Export</button> {/* Add onClick handler */}
-                </div>
-              </div>
+            <div className="export-btn-container">
+              <span className="button-text">Download Excel File</span>
+              <button className="export-btn" onClick={handleExport}>Export</button>
             </div>
-
-              <div className="search-bar">
-                <h1>Search</h1>
-                <input type="search" placeholder="Search here" />
-                <i className="fas fa-search"></i>
-              </div>
           </div>
+        </div>
 
+        <div className="search-container">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search by Invoice No, Name, or Consignee"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+          />
+          <button className="search-button" onClick={handleSearch}>🔍</button>
+        </div>
 
-      {/* --------4564------ */}
+      </div>
 
-      {/* Display data in a table for visualization */}
       <table className="table mt-3">
         <thead>
           <tr>
@@ -216,6 +288,7 @@ const handleExport = () => {
             <th>Mode of Payment</th>
             <th>Gst No</th>
             <th>Billing Address</th>
+            <th>AWB No</th>
             <th>Consignee</th>
             <th>Destination</th>
             <th>Product</th>
@@ -240,43 +313,37 @@ const handleExport = () => {
               <td>{item.Mode_Of_Payment || ''}</td>
               <td>{item.Gst_No || ''}</td>
               <td>{item.Billing_Address || ''}</td>
-              <td>{item.consignee || ''}</td>
-              <td>{item.destination || ''}</td>
-              <td>{item.product || ''}</td>
-              <td>{item.pcs || ''}</td>
-              <td>{item.weight || ''}</td>
-              <td>{item.price || ''}</td>
-              <td>{item.taxableAmount || ''}</td>
-              <td>{item.nonTaxableAmount || ''}</td>
+              <td>{item.awbNo ? item.awbNo.join(', ') : ''}</td>
+              <td>{item.consignee ? item.consignee.join(', ') : ''}</td>
+              <td>{item.destination ? item.destination.join(', ') : ''}</td>
+              <td>{item.product ? item.product.join(', ') : ''}</td>
+              <td>{item.pcs ? item.pcs.join(', ') : ''}</td>
+              <td>{item.weight ? item.weight.join(', ') : ''}</td>
+              <td>{item.price ? item.price.join(', ') : ''}</td>
+              <td>{item.TaxableAmount || ''}</td>
+              <td>{item.NonTaxableAmount || ''}</td>
               <td>{item.CGST || ''}</td>
               <td>{item.SGST || ''}</td>
               <td>{item.IGST || ''}</td>
               <td>{item.total || ''}</td>
               <td>
-                <button 
-                  className="btn btn-sm btn-warning"
-                  onClick={() => updateDataInFirebase(item.id, { ...item, total: item.total + 10 })} // Example: increase total by 10
-                >
-                  Update Total
-                </button>
+                <button className="btn btn-sm btn-danger" onClick={() => deleteDataFromFirebase(item.id)}>Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      {/* Text box to display the sum of the 'total' column */}
+
       <div className="total-sum-section mt-3">
-    <label htmlFor="total-sum">Total Sale:</label>
-    <input 
-      type="text" 
-      id="total-sum" 
-      value={totalSum} 
-      readOnly 
-      className="form-control" 
-    />
-  </div>
-
-
+        <label htmlFor="total-sum">Total Sale:</label>
+        <input 
+          type="text" 
+          id="total-sum" 
+          value={totalSum} 
+          readOnly 
+          className="form-control" 
+        />
+      </div>
     </div>
   );
 }

@@ -1,3 +1,10 @@
+.historyhead h1,
+.historyhead label,
+.historyhead .button-text,
+.historyhead button {
+    font-weight: bold;
+    /* Make text bold */
+}
 /* General Layout */
 .historyhead {
     display: flex;
@@ -15,7 +22,8 @@
     flex-basis: 30%;
     text-align: center;
     margin: 0 10px;
-    background-color: white;
+    background-color: #ffffff;
+    /* White background for sections */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -27,7 +35,8 @@
 .search-bar h1 {
     font-size: 1.5rem;
     margin-bottom: 15px;
-    color: #333;
+    color: #043e7b;
+    /* Blue color for headings */
     font-weight: bold;
 }
 
@@ -46,7 +55,8 @@ input[type="search"] {
 button {
     padding: 10px 20px;
     border: none;
-    background-color: #007BFF;
+    background-color: #073f7a;
+    /* Blue background */
     color: white;
     font-size: 1rem;
     cursor: pointer;
@@ -56,6 +66,7 @@ button {
 
 button:hover {
     background-color: #0056b3;
+    /* Darker blue on hover */
 }
 
 /* Import/Export Section Layout */
@@ -63,17 +74,18 @@ button:hover {
     flex-basis: 30%;
     text-align: center;
     margin: 0 10px;
-    background-color: white;
+    background-color: #ffffff;
+    /* White background for sections */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .import-export-section h1 {
     font-size: 1.5rem;
     margin-bottom: 15px;
-    color: #333;
+    color: #043e7b;
+    /* Blue color for headings */
     font-weight: bold;
 }
 
@@ -98,7 +110,8 @@ button:hover {
 
 .button-text {
     font-size: 0.9rem;
-    color: black;
+    color: #333;
+    /* Dark gray for text */
     margin-right: 10px;
     /* Space between text and button */
     flex-basis: 70%;
@@ -125,7 +138,8 @@ button {
     top: 50%;
     transform: translateY(-50%);
     font-size: 1.2rem;
-    color: #333;
+    color: #007BFF;
+    /* Blue for icons */
 }
 
 /* Responsive Design */
@@ -143,14 +157,14 @@ button {
     }
 }
 
-/* total sales */
+/* Total Sales Section */
 .total-sum-section {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    background-color: #f8f9fa;
+    background-color: #e4e4e4;
     /* Light gray background */
-    border: 2px solid #007bff;
+    border: 2px solid #000000;
     /* Blue border */
     border-radius: 5px;
     padding: 10px;
@@ -164,7 +178,7 @@ button {
     margin-right: 10px;
     font-weight: bold;
     /* Bold text for the label */
-    color: #343a40;
+    color: #050606;
     /* Darker color for the label */
 }
 
@@ -173,10 +187,82 @@ button {
     /* Fixed width for the input */
     border-radius: 5px;
     /* Rounded corners for the input */
-    border: 1px solid #007bff;
+    border: 1px solid #353638;
     /* Match border color with the section */
     padding: 5px;
     /* Space inside the input */
     background-color: #ffffff;
     /* White background for the input */
+}
+
+/* Search Bar */
+.search-container {
+    display: flex;
+    /* Align input and button side by side */
+    align-items: center;
+    /* Vertically center them */
+    width: 40%;
+    /* Reduced width of the container */
+    max-width: 600px;
+    /* Limit maximum width */
+    margin: 0 auto;
+    /* Center the container horizontally */
+    padding: 20px;
+    /* Padding around the container */
+    border-radius: 0.5rem;
+    /* Roundish edges for the container */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Optional: add some shadow for depth */
+}
+
+/* Input styles */
+.search-input {
+    width: 80%;
+    /* Take up remaining space */
+    padding: 0.75rem 1rem;
+    /* Padding for input */
+    font-size: 1rem;
+    /* Readable font size */
+    border: none;
+    /* No border */
+    outline: none;
+    /* Remove outline */
+    border-radius: 0.50rem 0 0 0.50rem;
+    /* Rounded corners on the left side */
+}
+
+/* Button styles */
+.search-button {
+    background-color: #043e7b;
+    /* Teal background */
+    color: white;
+    /* Text color */
+    padding: 0.75rem 1rem;
+    /* Padding for button */
+    border: none;
+    /* No border */
+    border-radius: 0 0.50rem 0.50rem 0;
+    /* Rounded corners on the right side */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    transition: background-color 0.3s ease;
+    /* Smooth transition for hover */
+}
+
+/* Button hover effect */
+.search-button:hover {
+    background-color: #319795;
+    /* Darker teal on hover */
+}
+
+/* Button focus effect */
+.search-button:focus {
+    outline: none;
+    /* Remove outline when focused */
+}
+
+/* Font Awesome Icon size */
+.fas {
+    font-size: 1rem;
+    /* Adjust icon size */
 }
