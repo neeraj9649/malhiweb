@@ -170,7 +170,8 @@ header nav ul li a {
 }
 
 header nav ul li a:hover {
-  background-color: #555;
+  background-color: #dadfe3;
+  color: #0a0909;
 }
 
 /* Main Content Styles */
@@ -191,9 +192,10 @@ main p {
   margin-bottom: 1rem;
 }
 
+
 /* Footer Styles */
 footer {
-  background-color: #333;
+  background-color: #021F3F;
   color: #fff;
   padding: 2rem;
   display: flex;
@@ -224,7 +226,8 @@ footer ul li a {
 }
 
 footer ul li a:hover {
-  background-color: #555;
+  background-color: #dadfe3;
+    color: #0a0909;
 }
 
 /* Button Styles */

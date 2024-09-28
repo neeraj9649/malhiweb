@@ -8,12 +8,14 @@ header {
     padding: 2rem;
     border-radius: 0.5rem;
 }
-
+#heroHeader{
+    background-color: #7ba9da;
+}
 /* Global Styles */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+    background-color: #044687;
     /* Light gray background */
 }
 
@@ -24,6 +26,9 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+.bgourservices{
+    background-image: url();
 }
 
 /* Body Section Styles */
@@ -97,8 +102,10 @@ body {
 }
 
 .service-card img {
-    max-width: 100%;
+    /* max-width: 100%; */
     /* Responsive image */
+    width: 100%;
+    height: 40vh;
     border-radius: 8px;
     /* Round edges for images */
 }
