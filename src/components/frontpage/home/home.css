@@ -9,7 +9,7 @@ header {
     border-radius: 0.5rem;
 }
 #heroHeader{
-    background-color: #7ba9da;
+    background-color: #f1f1f1;
 }
 /* Global Styles */
 body {
@@ -21,6 +21,7 @@ body {
 
 /* Home Container */
 .home-container {
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -69,7 +70,6 @@ body {
     background-color: #ffffff;
     /* White background for contrast */
 }
-
 .services h2 {
     font-size: 2.5rem;
     /* Services title size */

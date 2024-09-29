@@ -68,6 +68,26 @@ button:hover {
     background-color: #0056b3;
     /* Darker blue on hover */
 }
+/* delete Button */
+/* .dbtn {
+    background-color: #d30808;
+    WhatsApp green color
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.dbtn:hover {
+    background-color: #fa3030;s
+    Darker blue on hover
+} */
+
+/* top level div */
+#tod{
+overflow-x: scroll;
+}
+
 
 /* Import/Export Section Layout */
 .import-export-section {
@@ -265,4 +285,66 @@ button {
 .fas {
     font-size: 1rem;
     /* Adjust icon size */
+}
+
+/* Scoped table CSS */
+.tablee-container {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 800px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.tablee {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: left;
+    min-width: 1000px;
+}
+
+.tablee th,
+.tablee td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    background-color: white;
+    /* Set background color to white */
+}
+
+.tablee th {
+    background-color: #f2f2f2;
+    /* Header background color */
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.tablee tr {
+    background-color: white;
+    /* Ensure all rows have a white background */
+}
+
+.tablee tr:hover {
+    background-color: #eaeaea;
+    /* Slightly darker on hover */
+}
+
+.tablee td button.dbtn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.tablee td button.dbtn:hover {
+    background-color: #c0392b;
 }

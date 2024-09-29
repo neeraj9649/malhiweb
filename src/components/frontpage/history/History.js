@@ -65,7 +65,7 @@ function History() {
 
     setFilteredData(filtered);
     calculateTotalSum(filtered);
-  };
+  }; 
 
   // Function to calculate the sum of the 'total' column
   const calculateTotalSum = (dataToSum) => {
@@ -279,9 +279,11 @@ function History() {
 
       </div>
 
-      <table className="table mt-3">
+    <div className="tablee-container" style={{ maxHeight: '800px', width: '100%' }}> 
+      <table className="tablee mt-3" style={{ minWidth: '1000px' }}>
         <thead>
           <tr>
+            <th>Sr. No.</th> {/* Add the Sr. No. header */}
             <th>Date</th>
             <th>Invoice No</th>
             <th>Customer Name</th>
@@ -305,8 +307,9 @@ function History() {
           </tr>
         </thead>
         <tbody>
-          {filteredData.map((item) => (
+          {filteredData.map((item, index) => (
             <tr key={item.id}>
+              <td>{index + 1}</td> {/* Display Sr. No. */}
               <td>{item.date || ''}</td>
               <td>{item.Invoice_No || ''}</td>
               <td>{item.Customer_Name || ''}</td>
@@ -327,12 +330,17 @@ function History() {
               <td>{item.IGST || ''}</td>
               <td>{item.total || ''}</td>
               <td>
-                <button className="btn btn-sm btn-danger" onClick={() => deleteDataFromFirebase(item.id)}>Delete</button>
+                <button className="dbtn" onClick={() => deleteDataFromFirebase(item.id)}>Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+    </div>
+
+
+
+
 
       <div className="total-sum-section mt-3">
         <label htmlFor="total-sum">Total Sale:</label>
@@ -349,3 +357,5 @@ function History() {
 }
 
 export default History;
+
+

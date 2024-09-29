@@ -30,7 +30,24 @@ class InvoiceItem extends React.Component {
             {itemTable}
           </tbody>
         </Table>
-        <Button className="fw-bold" onClick={this.props.onRowAdd}>Add Item</Button>
+        <Button
+  className="Addbtninv"
+  onClick={this.props.onRowAdd}
+  style={{
+    backgroundColor: '#043e7b', // Background color
+    color: 'white',         // Text color
+    border: 'none',         // Remove border
+    padding: '0.5rem 1rem', // Padding for better appearance
+    borderRadius: '5px',    // Rounded corners
+    cursor: 'pointer',       // Change cursor on hover
+    transition: 'background-color 0.3s', // Transition effect
+  }}
+  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = 'darkred')}
+  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'green')}
+>
+  Add Item
+</Button>
+
       </div>
     );
 
