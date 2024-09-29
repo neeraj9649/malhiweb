@@ -41,9 +41,23 @@ function History() {
     fetchDataFromFirebase(); // Refetch the data after updating
   };
 
-  useEffect(() => {
-    fetchDataFromFirebase(); // Fetch data when the component loads
-  }, []);
+useEffect(() => {
+  fetchDataFromFirebase(); // Fetch data when the component loads
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Escape') {
+      fetchDataFromFirebase(); // Refetch the data when "Esc" is pressed
+    }
+  };
+
+  window.addEventListener('keydown', handleKeyDown);
+  
+  // Cleanup function to remove the event listener
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, [fetchDataFromFirebase]);
+
 
   // Handle filtering data based on the selected date range
   const handleFilterByDate = () => {
@@ -222,23 +236,34 @@ function History() {
       <h1>History</h1>
       <div className='historyhead'>
         <div className="filter-section">
-          <h1>Filter</h1>
-          <label htmlFor="start-date">Start Date:</label>
-          <input 
-            type="date" 
-            id="start-date" 
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)} 
-          />
-          <label htmlFor="end-date">End Date:</label>
-          <input 
-            type="date" 
-            id="end-date" 
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)} 
-          />
-          <button className="done-btn" onClick={handleFilterByDate}>Done</button>
-        </div>
+        <h1>Filter</h1>
+        <label htmlFor="start-date">Start Date:</label>
+        <input 
+          type="date" 
+          id="start-date" 
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)} 
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleFilterByDate(); // Trigger filter function on Enter
+            }
+          }}
+        />
+        <label htmlFor="end-date">End Date:</label>
+        <input 
+          type="date" 
+          id="end-date" 
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)} 
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleFilterByDate(); // Trigger filter function on Enter
+            }
+          }}
+        />
+        <button className="done-btn" onClick={handleFilterByDate}>Done</button>
+      </div>
+
 
         <div className="import-export-section">
           <h1>Import/Export</h1>
@@ -267,15 +292,21 @@ function History() {
         </div>
 
         <div className="search-container">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search by Invoice No, Name, or Consignee"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)} // Update search term
-          />
-          <button className="search-button" onClick={handleSearch}>🔍</button>
-        </div>
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Search by Invoice No, Name, or Consignee"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleSearch(); // Trigger search function on Enter
+            }
+          }}
+        />
+        <button className="search-button" onClick={handleSearch}>🔍</button>
+      </div>
+
 
       </div>
 
