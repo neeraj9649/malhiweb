@@ -10,6 +10,7 @@ function Footer() {
             <a
               href="https://api.whatsapp.com/send/?phone=917719674619&text&type=phone_number&app_absent=0"
               target="_blank"
+              rel="noreferrer"
             >
               Whatsapp
             </a>
@@ -18,7 +19,7 @@ function Footer() {
             <a
               href="https://www.instagram.com/malhi_enterprises_/?igsh=cjNvaHZsemhrdTZw&utm_source=qr"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noreferrer"
             >
               Instagram
             </a>

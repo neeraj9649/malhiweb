@@ -92,7 +92,7 @@ function Home() {
                   <a
                     href="https://api.whatsapp.com/send/?phone=917719674619&text&type=phone_number&app_absent=0"
                     target="_blank"
-                    rel="Whatsapp"
+                    rel="noreferrer"
                   >
                     <button
                       className="wbtn"
