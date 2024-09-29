@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
@@ -8,12 +8,12 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const login = (key) => {
-    const predefinedKey = '1'; // Replace with your actual key
+    const predefinedKey = "281994"; // Replace with your actual key
     if (key === predefinedKey) {
       setIsAuthenticated(true);
       return true;
     } else {
-      alert('Incorrect key, please try again.');
+      alert("Incorrect key, please try again.");
       return false;
     }
   };
