@@ -33,7 +33,7 @@ class InvoiceModal extends React.Component {
       consignee: this.props.items.map((item) => item.consignee || ""),
       destination: this.props.items.map((item) => item.destination || ""),
       product: this.props.items.map((item) => item.product || ""),
-      networkNo: this.props.items.map((item) => item.networkno || ""),
+      // networkNo: this.props.items.map((item) => item.networkno || ""),
       ds: this.props.items.map((item) => item.dsa || ""),
       pcs: this.props.items.map((item) => item.pcs || ""),
       weight: this.props.items.map((item) => item.weight || ""),
@@ -212,7 +212,7 @@ class InvoiceModal extends React.Component {
                     </th>
                     <th
                       style={{
-                        width: "70px",
+                        width: "80px",
                         fontSize: "11px",
                         fontWeight: "bold",
                         color: "#000",
@@ -222,7 +222,7 @@ class InvoiceModal extends React.Component {
                     </th>
                     <th
                       style={{
-                        width: "70px",
+                        width: "80px",
                         fontSize: "11px",
                         fontWeight: "bold",
                         color: "#000",
@@ -230,7 +230,7 @@ class InvoiceModal extends React.Component {
                     >
                       Product
                     </th>
-                    <th
+                    {/* <th
                       style={{
                         width: "90px",
                         fontSize: "11px",
@@ -239,10 +239,10 @@ class InvoiceModal extends React.Component {
                       }}
                     >
                       Network No
-                    </th>
+                    </th> */}
                     <th
                       style={{
-                        width: "50px",
+                        width: "60px",
                         fontSize: "11px",
                         fontWeight: "bold",
                         color: "#000",
@@ -252,7 +252,7 @@ class InvoiceModal extends React.Component {
                     </th>
                     <th
                       style={{
-                        width: "50px",
+                        width: "60px",
                         fontSize: "11px",
                         fontWeight: "bold",
                         color: "#000",
@@ -347,7 +347,7 @@ class InvoiceModal extends React.Component {
                       >
                         {item.product}
                       </td>
-                      <td
+                      {/* <td
                         style={{
                           fontSize: "11px",
                           fontWeight: "bold",
@@ -356,7 +356,7 @@ class InvoiceModal extends React.Component {
                         }}
                       >
                         {item.networkno}
-                      </td>
+                      </td> */}
                       <td
                         style={{
                           fontSize: "11px",

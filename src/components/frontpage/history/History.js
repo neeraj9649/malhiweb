@@ -157,7 +157,7 @@ function History() {
           weight: row["Weight"] ? [row["Weight"]] : [],
           price: row["Price"] ? [row["Price"]] : [],
           ds: row["ds"] ? [row["ds"]] : [],
-          networkNo: row["networkNo"] ? [row["networkNo"]] : [],
+          // networkNo: row["networkNo"] ? [row["networkNo"]] : [],
         };
 
         try {
@@ -181,73 +181,45 @@ function History() {
     }
 
     const exportData = filteredData.map((item) => {
-      const maxLength = Math.max(
-        item.product?.length || 0,
-        item.price?.length || 0,
-        item.srNo?.length || 0,
-        item.destination?.length || 0,
-        item.ds?.length || 0,
-        item.networkNo?.length || 0,
-        item.consignee?.length || 0,
-        item.pcs?.length || 0,
-        item.awbNo?.length || 0,
-        item.weight?.length || 0
-      );
+      // Joining arrays into strings with a delimiter (e.g., ', ')
+      const product = item.product?.join(", ") || "";
+      const price = item.price?.join(", ") || "";
+      const srNo = item.srNo?.join(", ") || "";
+      const destination = item.destination?.join(", ") || "";
+      const ds = item.ds?.join(", ") || "";
+      // const networkNo = item.networkNo?.join(", ") || "";
+      const consignee = item.consignee?.join(", ") || "";
+      const pcs = item.pcs?.join(", ") || "";
+      const awbNo = item.awbNo?.join(", ") || "";
+      const weight = item.weight?.join(", ") || "";
 
-      const rows = Array.from({ length: maxLength }).map((_, index) => ({
-        srNo: item.srNo?.[index] || "",
+      return {
+        srNo: srNo,
         Invoice_No: item.Invoice_No || "",
         Date: item.date || "",
         Customer_Name: item.Customer_Name || "",
         Mode_Of_Payment: item.Mode_Of_Payment || "",
         GST_No: item.Gst_No || "",
         Billing_Address: item.Billing_Address || "",
-        Consignee: item.consignee?.[index] || "",
-        Destination: item.destination?.[index] || "",
-        Product: item.product?.[index] || "",
-        Pcs: item.pcs?.[index] || "",
-        Weight: item.weight?.[index] || "",
-        Price: item.price?.[index] || "",
+        Consignee: consignee,
+        Destination: destination,
+        Product: product,
+        Pcs: pcs,
+        Weight: weight,
+        Price: price,
         TaxableAmount: item.TaxableAmount || "",
         NonTaxableAmount: item.NonTaxableAmount || "",
         CGST: item.CGST || "",
         SGST: item.SGST || "",
         IGST: item.IGST || "",
         total: item.total || "",
-        ds: item.ds?.[index] || "",
-        networkNo: item.networkNo?.[index] || "",
-        awbNo: item.awbNo?.[index] || "",
-      }));
-
-      return rows;
+        ds: ds,
+        // networkNo: networkNo,
+        awbNo: awbNo,
+      };
     });
 
-    const flattenedExportData = exportData.flat();
-    // const headers = [
-    //   "Sr No",
-    //   "Invoice No",
-    //   "Date",
-    //   "Consignee",
-    //   "Destination",
-    //   "Product",
-    //   "Pcs",
-    //   "Weight",
-    //   "Price",
-    //   "Taxable Amount",
-    //   "Non-Taxable Amount",
-    //   "CGST",
-    //   "SGST",
-    //   "Total",
-    //   "DS",
-    //   "Network No",
-    //   "AWB No",
-    //   "Customer Name",
-    //   "Mode of Payment",
-    //   "GST No",
-    //   "Billing Address",
-    // ];
-
-    const worksheet = XLSX.utils.json_to_sheet(flattenedExportData);
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Filtered_History");
     XLSX.writeFile(workbook, "Filtered_History.xlsx");
