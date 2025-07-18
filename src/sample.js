@@ -124,8 +124,6 @@ th {
 <p>Amount in Words (*): ELEVEN THOUSAND TWO HUNDRED FIFTY ONLY</p>
 
 <h4>Ε.& Ο.Ε</h4>
-<h4>TERMS & CONDITION:</h4>
-<p>1.Payment of this invoice should be by crossed account payee cheque / demand draft in favour of HPL LOGISTICS PVT. LTD.<br>2.Kindly notify us in writing regarding any discrepancy in this invoice within seven days. Otherwise, this invoice shall be deemed to be correct and payable by you.<br>3.Interest @2% per month will be charged on delayed payments.<br>4. Any discrepency in this invoice must communicate in written within 7 days of date of invoice<br>5.Subject to the jurisdiction of the courts in Ludhiana.<br>6. This is a computer generated invoice with Digital Signature. does not require signature<br>7.IGST has been charged, against section 12(8) and section 7(5) (a) of the igst act read with notification no 01/2019-integrated tax dated 29.01.2019, on all shipments going outside india, effective 01st feb 2019.</p>
 
 <table class="right">
   <tr>
